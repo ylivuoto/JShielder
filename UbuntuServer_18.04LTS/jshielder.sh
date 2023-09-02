@@ -23,8 +23,8 @@ source helpers.sh
 ##############################################################################################################
 
 f_banner(){
-echo
-echo "
+    echo
+    echo "
 
      ██╗███████╗██╗  ██╗██╗███████╗██╗     ██████╗ ███████╗██████╗
      ██║██╔════╝██║  ██║██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
@@ -35,8 +35,8 @@ echo "
 
 For Ubuntu Server 18.04 LTS
 Developed By Jason Soto @Jsitech"
-echo
-echo
+    echo
+    echo
 
 }
 
@@ -49,16 +49,16 @@ f_banner
 
 
 check_root() {
-if [ "$USER" != "root" ]; then
-      echo "Permission Denied"
-      echo "Can only be run by root"
-      exit
-else
-      clear
-      f_banner
-      jshielder_home=$(pwd)
-      cat templates/texts/welcome
-fi
+    if [ "$USER" != "root" ]; then
+	echo "Permission Denied"
+	echo "Can only be run by root"
+	exit
+    else
+	clear
+	f_banner
+	jshielder_home=$(pwd)
+	cat templates/texts/welcome
+    fi
 }
 
 ##############################################################################################################
@@ -66,41 +66,41 @@ fi
 # Installing Dependencies
 # Needed Prerequesites will be set up here
 install_dep(){
-   clear
-   f_banner
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo -e "\e[93m[+]\e[00m Setting some Prerequisites"
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo ""
-   spinner
-   add-apt-repository universe
-   say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Setting some Prerequisites"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    spinner
+    add-apt-repository universe
+    say_done
 }
 
 ##############################################################################################################
 
 # Configure Hostname
 config_host() {
-echo -n " ¿Do you Wish to Set a HostName? (y/n): "; read config_host
-if [ "$config_host" == "y" ]; then
-    serverip=$(__get_ip)
-    echo " Type a Name to Identify this server :"
-    echo -n " (For Example: myserver): "; read host_name
-    echo -n " ¿Type Domain Name?: "; read domain_name
-    echo $host_name > /etc/hostname
-    hostname -F /etc/hostname
-    echo "127.0.0.1    localhost.localdomain      localhost" >> /etc/hosts
-    echo "$serverip    $host_name.$domain_name    $host_name" >> /etc/hosts
-    #Creating Legal Banner for unauthorized Access
-    echo ""
-    echo "Creating legal Banners for unauthorized access"
-    spinner
-    cat templates/motd > /etc/motd
-    cat templates/motd > /etc/issue
-    cat templates/motd > /etc/issue.net
-    sed -i s/server.com/$host_name.$domain_name/g /etc/motd /etc/issue /etc/issue.net
-    echo "OK "
-fi
+    echo -n " ¿Do you Wish to Set a HostName? (y/n): "; read config_host
+    if [ "$config_host" == "y" ]; then
+	serverip=$(__get_ip)
+	echo " Type a Name to Identify this server :"
+	echo -n " (For Example: myserver): "; read host_name
+	echo -n " ¿Type Domain Name?: "; read domain_name
+	echo $host_name > /etc/hostname
+	hostname -F /etc/hostname
+	echo "127.0.0.1    localhost.localdomain      localhost" >> /etc/hosts
+	echo "$serverip    $host_name.$domain_name    $host_name" >> /etc/hosts
+	#Creating Legal Banner for unauthorized Access
+	echo ""
+	echo "Creating legal Banners for unauthorized access"
+	spinner
+	cat templates/motd > /etc/motd
+	cat templates/motd > /etc/issue
+	cat templates/motd > /etc/issue.net
+	sed -i s/server.com/$host_name.$domain_name/g /etc/motd /etc/issue /etc/issue.net
+	echo "OK "
+    fi
     say_done
 }
 
@@ -108,48 +108,48 @@ fi
 
 # Configure TimeZone
 config_timezone(){
-   clear
-   f_banner
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo -e "\e[93m[+]\e[00m We will now Configure the TimeZone"
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo ""
-   sleep 10
-   dpkg-reconfigure tzdata
-   say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m We will now Configure the TimeZone"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    sleep 10
+    dpkg-reconfigure tzdata
+    say_done
 }
 
 ##############################################################################################################
 
 # Update System, Install sysv-rc-conf tool
 update_system(){
-   clear
-   f_banner
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo -e "\e[93m[+]\e[00m Updating the System"
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo ""
-   apt update
-   apt upgrade -y
-   apt dist-upgrade -y
-   say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Updating the System"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    apt update
+    apt upgrade -y
+    apt dist-upgrade -y
+    say_done
 }
 
 ##############################################################################################################
 
 # Setting a more restrictive UMASK
 restrictive_umask(){
-   clear
-   f_banner
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo -e "\e[93m[+]\e[00m Setting UMASK to a more Restrictive Value (027)"
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo ""
-   spinner
-   cp templates/login.defs /etc/login.defs
-   echo ""
-   echo "OK"
-   say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Setting UMASK to a more Restrictive Value (027)"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    spinner
+    cp templates/login.defs /etc/login.defs
+    echo ""
+    echo "OK"
+    say_done
 }
 
 #############################################################################################################
@@ -157,41 +157,41 @@ restrictive_umask(){
 #Disabling Unused Filesystems
 
 unused_filesystems(){
-   clear
-   f_banner
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo -e "\e[93m[+]\e[00m Disabling Unused FileSystems"
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo ""
-   spinner
-   echo "install cramfs /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install freevxfs /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install jffs2 /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install hfs /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install hfsplus /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install squashfs /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install vfat /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo " OK"
-   say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Disabling Unused FileSystems"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    spinner
+    echo "install cramfs /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install freevxfs /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install jffs2 /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install hfs /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install hfsplus /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install squashfs /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install udf /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install vfat /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo " OK"
+    say_done
 }
 
 ##############################################################################################################
 
 uncommon_netprotocols(){
-   clear
-   f_banner
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo -e "\e[93m[+]\e[00m Disabling Uncommon Network Protocols"
-   echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-   echo ""
-   spinner
-   echo "install dccp /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install sctp /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install rds /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo "install tipc /bin/true" >> /etc/modprobe.d/CIS.conf
-   echo " OK"
-   say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Disabling Uncommon Network Protocols"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    spinner
+    echo "install dccp /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install sctp /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install rds /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo "install tipc /bin/true" >> /etc/modprobe.d/CIS.conf
+    echo " OK"
+    say_done
 
 }
 
@@ -243,34 +243,34 @@ rsa_keycopy(){
 
 #Securing /tmp Folder
 secure_tmp(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Securing /tmp Folder"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  echo -n " ¿Did you Create a Separate /tmp partition during the Initial Installation? (y/n): "; read tmp_answer
-  if [ "$tmp_answer" == "n" ]; then
-      echo "We will create a FileSystem for the /tmp Directory and set Proper Permissions "
-      spinner
-      dd if=/dev/zero of=/usr/tmpDISK bs=1024 count=2048000
-      mkdir /tmpbackup
-      cp -Rpf /tmp /tmpbackup
-      mount -t tmpfs -o loop,noexec,nosuid,rw /usr/tmpDISK /tmp
-      chmod 1777 /tmp
-      cp -Rpf /tmpbackup/* /tmp/
-      rm -rf /tmpbackup
-      echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,nodev,noexec,rw  0 0" >> /etc/fstab
-      sudo mount -o remount /tmp
-      say_done
-  else
-      echo "Nice Going, Remember to set proper permissions in /etc/fstab"
-      echo ""
-      echo "Example:"
-      echo ""
-      echo "/dev/sda4   /tmp   tmpfs  loop,nosuid,noexec,rw  0 0 "
-      say_done
-  fi
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Securing /tmp Folder"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    echo -n " ¿Did you Create a Separate /tmp partition during the Initial Installation? (y/n): "; read tmp_answer
+    if [ "$tmp_answer" == "n" ]; then
+	echo "We will create a FileSystem for the /tmp Directory and set Proper Permissions "
+	spinner
+	dd if=/dev/zero of=/usr/tmpDISK bs=1024 count=2048000
+	mkdir /tmpbackup
+	cp -Rpf /tmp /tmpbackup
+	mount -t tmpfs -o loop,noexec,nosuid,rw /usr/tmpDISK /tmp
+	chmod 1777 /tmp
+	cp -Rpf /tmpbackup/* /tmp/
+	rm -rf /tmpbackup
+	echo "/usr/tmpDISK  /tmp    tmpfs   loop,nosuid,nodev,noexec,rw  0 0" >> /etc/fstab
+	sudo mount -o remount /tmp
+	say_done
+    else
+	echo "Nice Going, Remember to set proper permissions in /etc/fstab"
+	echo ""
+	echo "Example:"
+	echo ""
+	echo "/dev/sda4   /tmp   tmpfs  loop,nosuid,noexec,rw  0 0 "
+	say_done
+    fi
 }
 
 ##############################################################################################################
@@ -313,8 +313,8 @@ set_iptables(){
 ##############################################################################################################
 
 # Install fail2ban
-    # To Remove a Fail2Ban rule use:
-    # iptables -D fail2ban-ssh -s IP -j DROP
+# To Remove a Fail2Ban rule use:
+# iptables -D fail2ban-ssh -s IP -j DROP
 install_fail2ban(){
     clear
     f_banner
@@ -352,32 +352,32 @@ install_secure_mysql(){
 
 # Install Apache
 install_apache(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Installing Apache Web Server"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  apt install apache2
-  say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Installing Apache Web Server"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    apt install apache2
+    say_done
 }
 
 ##############################################################################################################
 
 # Install Nginx
 install_nginx(){
-  clear
-  f_banner 
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Installing NginX Web Server"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  echo "deb http://nginx.org/packages/ubuntu/ bionic nginx" >> /etc/apt/sources.list
-  echo "deb-src http://nginx.org/packages/ubuntu/ bionic nginx" >> /etc/apt/sources.list
-  curl -O https://nginx.org/keys/nginx_signing.key && apt-key add ./nginx_signing.key
-  apt update
-  apt install nginx
-  say_done
+    clear
+    f_banner 
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Installing NginX Web Server"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    echo "deb http://nginx.org/packages/ubuntu/ bionic nginx" >> /etc/apt/sources.list
+    echo "deb-src http://nginx.org/packages/ubuntu/ bionic nginx" >> /etc/apt/sources.list
+    curl -O https://nginx.org/keys/nginx_signing.key && apt-key add ./nginx_signing.key
+    apt update
+    apt install nginx
+    say_done
 }
 
 ##############################################################################################################
@@ -385,71 +385,71 @@ install_nginx(){
 #Compile ModSecurity for NginX
 
 compile_modsec_nginx(){
-  clear
-  f_banner 
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Install Prerequisites and Compiling ModSecurity for NginX"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
+    clear
+    f_banner 
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Install Prerequisites and Compiling ModSecurity for NginX"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
 
-apt install bison flex make automake gcc pkg-config libtool doxygen git curl zlib1g-dev libxml2-dev libpcre3-dev build-essential libyajl-dev yajl-tools liblmdb-dev rdmacm-utils libgeoip-dev libcurl4-openssl-dev liblua5.2-dev libfuzzy-dev openssl libssl-dev
+    apt install bison flex make automake gcc pkg-config libtool doxygen git curl zlib1g-dev libxml2-dev libpcre3-dev build-essential libyajl-dev yajl-tools liblmdb-dev rdmacm-utils libgeoip-dev libcurl4-openssl-dev liblua5.2-dev libfuzzy-dev openssl libssl-dev
 
-cd /opt/
-git clone https://github.com/SpiderLabs/ModSecurity
+    cd /opt/
+    git clone https://github.com/SpiderLabs/ModSecurity
 
-cd ModSecurity
-git checkout v3/master
-git submodule init
-git submodule update
+    cd ModSecurity
+    git checkout v3/master
+    git submodule init
+    git submodule update
 
-./build.sh
-./configure
-make
-make install
+    ./build.sh
+    ./configure
+    make
+    make install
 
-cd ..
+    cd ..
 
-nginx_version=$(dpkg -l |grep nginx | awk '{print $3}' | cut -d '-' -f1)
+    nginx_version=$(dpkg -l |grep nginx | awk '{print $3}' | cut -d '-' -f1)
 
-wget http://nginx.org/download/nginx-$nginx_version.tar.gz
-tar xzvf nginx-$nginx_version.tar.gz
+    wget http://nginx.org/download/nginx-$nginx_version.tar.gz
+    tar xzvf nginx-$nginx_version.tar.gz
 
-git clone https://github.com/SpiderLabs/ModSecurity-nginx
+    git clone https://github.com/SpiderLabs/ModSecurity-nginx
 
-cd nginx-$nginx_version/
+    cd nginx-$nginx_version/
 
-./configure --with-compat --add-dynamic-module=/opt/ModSecurity-nginx
-make modules
+    ./configure --with-compat --add-dynamic-module=/opt/ModSecurity-nginx
+    make modules
 
-cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules/
+    cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules/
 
-cd /etc/nginx/
+    cd /etc/nginx/
 
-mkdir /etc/nginx/modsec
-cd /etc/nginx/modsec
-git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
-mv /etc/nginx/modsec/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/modsec/owasp-modsecurity-crs/crs-setup.conf
+    mkdir /etc/nginx/modsec
+    cd /etc/nginx/modsec
+    git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git
+    mv /etc/nginx/modsec/owasp-modsecurity-crs/crs-setup.conf.example /etc/nginx/modsec/owasp-modsecurity-crs/crs-setup.conf
 
-cp /opt/ModSecurity/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf
+    cp /opt/ModSecurity/modsecurity.conf-recommended /etc/nginx/modsec/modsecurity.conf
 
-echo "Include /etc/nginx/modsec/modsecurity.conf" >> /etc/nginx/modsec/main.conf
-echo "Include /etc/nginx/modsec/owasp-modsecurity-crs/crs-setup.conf" >> /etc/nginx/modsec/main.conf
-echo "Include /etc/nginx/modsec/owasp-modsecurity-crs/rules/*.conf" >> /etc/nginx/modsec/main.conf
+    echo "Include /etc/nginx/modsec/modsecurity.conf" >> /etc/nginx/modsec/main.conf
+    echo "Include /etc/nginx/modsec/owasp-modsecurity-crs/crs-setup.conf" >> /etc/nginx/modsec/main.conf
+    echo "Include /etc/nginx/modsec/owasp-modsecurity-crs/rules/*.conf" >> /etc/nginx/modsec/main.conf
 
-wget -P /etc/nginx/modsec/ https://github.com/SpiderLabs/ModSecurity/raw/v3/master/unicode.mapping
-cd $jshielder_home
+    wget -P /etc/nginx/modsec/ https://github.com/SpiderLabs/ModSecurity/raw/v3/master/unicode.mapping
+    cd $jshielder_home
 
-  clear
-  f_banner 
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Configuring ModSecurity for NginX"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  spinner
-  cp templates/nginx /etc/nginx/nginx.conf
-  cp templates/nginx_default /etc/nginx/conf.d/default.conf
-  service nginx restart
-  say_done
+    clear
+    f_banner 
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Configuring ModSecurity for NginX"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    spinner
+    cp templates/nginx /etc/nginx/nginx.conf
+    cp templates/nginx_default /etc/nginx/conf.d/default.conf
+    service nginx restart
+    say_done
 
 }
 
@@ -522,7 +522,7 @@ set_owasp_rules(){
     echo ""
 
     #for archivo in /usr/share/modsecurity-crs/base_rules/*
-     #   do ln -s $archivo /usr/share/modsecurity-crs/activated_rules/
+    #   do ln -s $archivo /usr/share/modsecurity-crs/activated_rules/
     #done
 
     #for archivo in /usr/share/modsecurity-crs/optional_rules/*
@@ -631,6 +631,7 @@ additional_packages(){
     echo "Install WSGI............."; apt install libapache2-mod-wsgi
     echo "Install PIP.............."; apt install python-pip
     echo "Install Vim.............."; apt install vim
+    echo "Install Emacs............"; apt install emacs
     echo "Install Nano............."; apt install nano
     echo "Install pear............."; apt install php-pear
     echo "Install DebSums.........."; apt install debsums
@@ -705,7 +706,7 @@ tune_nano_vim_bashrc(){
     echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
     echo ""
 
-# Tune .bashrc
+    # Tune .bashrc
     echo "Tunning .bashrc......"
     spinner
     cp templates/bashrc-root /root/.bashrc
@@ -714,14 +715,14 @@ tune_nano_vim_bashrc(){
     echo "OK"
 
 
-# Tune Vim
+    # Tune Vim
     echo "Tunning Vim......"
     spinner
     tunning vimrc
     echo "OK"
 
 
-# Tune Nano
+    # Tune Nano
     echo "Tunning Nano......"
     spinner
     tunning nanorc
@@ -786,7 +787,7 @@ install_artillery (){
     echo "Setting Iptable rules for artillery"
     spinner
     for port in 22 1433 8080 21 5900 53 110 1723 1337 10000 5800 44443 16993; do
-      echo "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT" >> /etc/init.d/iptables.sh
+	echo "iptables -A INPUT -p tcp -m tcp --dport $port -j ACCEPT" >> /etc/init.d/iptables.sh
     done
     echo ""
     echo "Artillery configuration file is /var/artillery/config"
@@ -820,16 +821,16 @@ additional_hardening(){
     echo ""
     echo -n " Do you want to Disable USB Support for this Server? (y/n): " ; read usb_answer
     if [ "$usb_answer" == "y" ]; then
-       echo ""
-       echo "Disabling USB Support"
-       spinner
-       echo "blacklist usb-storage" | sudo tee -a /etc/modprobe.d/blacklist.conf
-       update-initramfs -u
-       echo "OK"
-       say_done
+	echo ""
+	echo "Disabling USB Support"
+	spinner
+	echo "blacklist usb-storage" | sudo tee -a /etc/modprobe.d/blacklist.conf
+	update-initramfs -u
+	echo "OK"
+	say_done
     else
-       echo "OK"
-       say_done
+	echo "OK"
+	say_done
     fi
 }
 
@@ -878,12 +879,12 @@ install_tiger(){
 #Install PSAD
 #PSAD actively monitors firewall logs to determine if a scan or attack is taking place
 install_psad(){
-clear
-f_banner
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m Install PSAD"
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo " PSAD is a piece of Software that actively monitors you Firewall Logs to Determine if a scan
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Install PSAD"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo " PSAD is a piece of Software that actively monitors you Firewall Logs to Determine if a scan
        or attack event is in Progress. It can alert and Take action to deter the Threat
 
        NOTE:
@@ -893,24 +894,24 @@ echo " PSAD is a piece of Software that actively monitors you Firewall Logs to D
        iptables -A FORWARD -j LOG
 
        "
-echo ""
-echo -n " Do you want to install PSAD (Recommended)? (y/n): " ; read psad_answer
-if [ "$psad_answer" == "y" ]; then
-     echo -n " Type an Email Address to Receive PSAD Alerts: " ; read inbox1
-     apt install psad
-     sed -i s/INBOX/$inbox1/g templates/psad.conf
-     sed -i s/CHANGEME/$host_name.$domain_name/g templates/psad.conf  
-     cp templates/psad.conf /etc/psad/psad.conf
-     psad --sig-update
-     service psad restart
-     echo "Installation and Configuration Complete"
-     echo "Run service psad status, for detected events"
-     echo ""
-     say_done
-else
-     echo "OK"
-     say_done
-fi
+    echo ""
+    echo -n " Do you want to install PSAD (Recommended)? (y/n): " ; read psad_answer
+    if [ "$psad_answer" == "y" ]; then
+	echo -n " Type an Email Address to Receive PSAD Alerts: " ; read inbox1
+	apt install psad
+	sed -i s/INBOX/$inbox1/g templates/psad.conf
+	sed -i s/CHANGEME/$host_name.$domain_name/g templates/psad.conf  
+	cp templates/psad.conf /etc/psad/psad.conf
+	psad --sig-update
+	service psad restart
+	echo "Installation and Configuration Complete"
+	echo "Run service psad status, for detected events"
+	echo ""
+	say_done
+    else
+	echo "OK"
+	say_done
+    fi
 }
 
 ##############################################################################################################
@@ -955,48 +956,48 @@ apache_conf_restrictions(){
     echo ""
     echo " Restricting Access to Apache Config Files......"
     spinner
-     chmod 750 /etc/apache2/conf* >/dev/null 2>&1
-     chmod 511 /usr/sbin/apache2 >/dev/null 2>&1
-     chmod 750 /var/log/apache2/ >/dev/null 2>&1
-     chmod 640 /etc/apache2/conf-available/* >/dev/null 2>&1
-     chmod 640 /etc/apache2/conf-enabled/* >/dev/null 2>&1
-     chmod 640 /etc/apache2/apache2.conf >/dev/null 2>&1
-     echo " OK"
-     say_done
+    chmod 750 /etc/apache2/conf* >/dev/null 2>&1
+    chmod 511 /usr/sbin/apache2 >/dev/null 2>&1
+    chmod 750 /var/log/apache2/ >/dev/null 2>&1
+    chmod 640 /etc/apache2/conf-available/* >/dev/null 2>&1
+    chmod 640 /etc/apache2/conf-enabled/* >/dev/null 2>&1
+    chmod 640 /etc/apache2/apache2.conf >/dev/null 2>&1
+    echo " OK"
+    say_done
 }
 
 ##############################################################################################################
 
 # Additional Security Configurations
-  #Enable Unattended Security Updates
-  unattended_upgrades(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Enable Unattended Security Updates"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  echo -n " ¿Do you Wish to Enable Unattended Security Updates? (y/n): "; read unattended
-  if [ "$unattended" == "y" ]; then
-      dpkg-reconfigure -plow unattended-upgrades
-  else
-      clear
-  fi
+#Enable Unattended Security Updates
+unattended_upgrades(){
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Enable Unattended Security Updates"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    echo -n " ¿Do you Wish to Enable Unattended Security Updates? (y/n): "; read unattended
+    if [ "$unattended" == "y" ]; then
+	dpkg-reconfigure -plow unattended-upgrades
+    else
+	clear
+    fi
 }
 
 ##############################################################################################################
 
 # Enable Process Accounting
 enable_proc_acct(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Enable Process Accounting"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  apt install acct
-  touch /var/log/wtmp
-  echo "OK"
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Enable Process Accounting"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    apt install acct
+    touch /var/log/wtmp
+    echo "OK"
 }
 
 ##############################################################################################################
@@ -1004,58 +1005,58 @@ enable_proc_acct(){
 #Install and enable auditd
 
 install_auditd(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Installing auditd"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  apt install auditd
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Installing auditd"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    apt install auditd
 
-  # Using CIS Benchmark configuration
-  
-  #Ensure auditing for processes that start prior to auditd is enabled 
-  echo ""
-  echo "Enabling auditing for processes that start prior to auditd"
-  spinner
-  sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="audit=1"/g' /etc/default/grub
-  update-grub
+    # Using CIS Benchmark configuration
+    
+    #Ensure auditing for processes that start prior to auditd is enabled 
+    echo ""
+    echo "Enabling auditing for processes that start prior to auditd"
+    spinner
+    sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="audit=1"/g' /etc/default/grub
+    update-grub
 
-  echo ""
-  echo "Configuring Auditd Rules"
-  spinner
+    echo ""
+    echo "Configuring Auditd Rules"
+    spinner
 
-  cp templates/audit-CIS.rules /etc/audit/rules.d/audit.rules
+    cp templates/audit-CIS.rules /etc/audit/rules.d/audit.rules
 
-  find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
+    find / -xdev \( -perm -4000 -o -perm -2000 \) -type f | awk '{print \
   "-a always,exit -F path=" $1 " -F perm=x -F auid>=1000 -F auid!=4294967295 \
   -k privileged" } ' >> /etc/audit/rules.d/audit.rules
 
-  echo " " >> /etc/audit/rules.d/audit.rules
-  echo "#End of Audit Rules" >> /etc/audit/rules.d/audit.rules
-  echo "-e 2" >>/etc/audit/rules.d/audit.rules
+    echo " " >> /etc/audit/rules.d/audit.rules
+    echo "#End of Audit Rules" >> /etc/audit/rules.d/audit.rules
+    echo "-e 2" >>/etc/audit/rules.d/audit.rules
 
-  systemctl enable auditd.service
-  service auditd restart
-  echo "OK"
-  say_done
+    systemctl enable auditd.service
+    service auditd restart
+    echo "OK"
+    say_done
 }
 ##############################################################################################################
 
 #Install and Enable sysstat
 
 install_sysstat(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Installing and enabling sysstat"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  apt install sysstat
-  sed -i 's/ENABLED="false"/ENABLED="true"/g' /etc/default/sysstat
-  service sysstat start
-  echo "OK"
-  say_done
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Installing and enabling sysstat"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    apt install sysstat
+    sed -i 's/ENABLED="false"/ENABLED="true"/g' /etc/default/sysstat
+    service sysstat start
+    echo "OK"
+    say_done
 }
 
 ##############################################################################################################
@@ -1063,116 +1064,116 @@ install_sysstat(){
 #Install ArpWatch
 
 install_arpwatch(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m ArpWatch Install"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  echo "ArpWatch is a tool for monitoring ARP traffic on System. It generates log of observed pairing of IP and MAC."
-  echo ""
-  echo -n " Do you want to Install ArpWatch on this Server? (y/n): " ; read arp_answer
-  if [ "$arp_answer" == "y" ]; then
-     echo "Installing ArpWatch"
-     spinner
-     apt install -y arpwatch
-     systemctl enable arpwatch.service
-     service arpwatch start
-     echo "OK"
-     say_done
-  else
-     echo "OK"
-     say_done
-  fi
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m ArpWatch Install"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    echo "ArpWatch is a tool for monitoring ARP traffic on System. It generates log of observed pairing of IP and MAC."
+    echo ""
+    echo -n " Do you want to Install ArpWatch on this Server? (y/n): " ; read arp_answer
+    if [ "$arp_answer" == "y" ]; then
+	echo "Installing ArpWatch"
+	spinner
+	apt install -y arpwatch
+	systemctl enable arpwatch.service
+	service arpwatch start
+	echo "OK"
+	say_done
+    else
+	echo "OK"
+	say_done
+    fi
 }
 
 ##############################################################################################################
 
 set_grubpassword(){
-  clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m GRUB Bootloader Password"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  echo "It is recommended to set a password on GRUB bootloader to prevent altering boot configuration (e.g. boot in single user mode without password)"
-  echo ""
-  echo -n " Do you want to set a GRUB Bootloader Password? (y/n): " ; read grub_answer
-  if [ "$grub_answer" == "y" ]; then
-    grub-mkpasswd-pbkdf2 | tee grubpassword.tmp
-    grubpassword=$(cat grubpassword.tmp | sed -e '1,2d' | cut -d ' ' -f7)
-    echo " set superusers="root" " >> /etc/grub.d/40_custom
-    echo " password_pbkdf2 root $grubpassword " >> /etc/grub.d/40_custom
-    rm grubpassword.tmp
-    update-grub
-    echo "On every boot enter root user and the password you just set"
-    echo "OK"
-    say_done
-  else
-    echo "OK"
-    say_done
-  fi
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m GRUB Bootloader Password"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    echo "It is recommended to set a password on GRUB bootloader to prevent altering boot configuration (e.g. boot in single user mode without password)"
+    echo ""
+    echo -n " Do you want to set a GRUB Bootloader Password? (y/n): " ; read grub_answer
+    if [ "$grub_answer" == "y" ]; then
+	grub-mkpasswd-pbkdf2 | tee grubpassword.tmp
+	grubpassword=$(cat grubpassword.tmp | sed -e '1,2d' | cut -d ' ' -f7)
+	echo " set superusers="root" " >> /etc/grub.d/40_custom
+	echo " password_pbkdf2 root $grubpassword " >> /etc/grub.d/40_custom
+	rm grubpassword.tmp
+	update-grub
+	echo "On every boot enter root user and the password you just set"
+	echo "OK"
+	say_done
+    else
+	echo "OK"
+	say_done
+    fi
 
-echo -e ""
-echo -e "Securing Boot Settings"
-spinner
-sleep 2
-chown root:root /boot/grub/grub.cfg
-chmod og-rwx /boot/grub/grub.cfg
-say_done
+    echo -e ""
+    echo -e "Securing Boot Settings"
+    spinner
+    sleep 2
+    chown root:root /boot/grub/grub.cfg
+    chmod og-rwx /boot/grub/grub.cfg
+    say_done
 
 }    
 
 ##############################################################################################################
 
 file_permissions(){
- clear
-  f_banner
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo -e "\e[93m[+]\e[00m Setting File Permissions on Critical System Files"
-  echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-  echo ""
-  spinner
-  sleep 2
-  chmod -R g-wx,o-rwx /var/log/*
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Setting File Permissions on Critical System Files"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    spinner
+    sleep 2
+    chmod -R g-wx,o-rwx /var/log/*
 
-  chown root:root /etc/ssh/sshd_config
-  chmod og-rwx /etc/ssh/sshd_config
+    chown root:root /etc/ssh/sshd_config
+    chmod og-rwx /etc/ssh/sshd_config
 
-  chown root:root /etc/passwd
-  chmod 644 /etc/passwd
+    chown root:root /etc/passwd
+    chmod 644 /etc/passwd
 
-  chown root:shadow /etc/shadow
-  chmod o-rwx,g-wx /etc/shadow
+    chown root:shadow /etc/shadow
+    chmod o-rwx,g-wx /etc/shadow
 
-  chown root:root /etc/group
-  chmod 644 /etc/group
+    chown root:root /etc/group
+    chmod 644 /etc/group
 
-  chown root:shadow /etc/gshadow
-  chmod o-rwx,g-rw /etc/gshadow
+    chown root:shadow /etc/gshadow
+    chmod o-rwx,g-rw /etc/gshadow
 
-  chown root:root /etc/passwd-
-  chmod 600 /etc/passwd-
+    chown root:root /etc/passwd-
+    chmod 600 /etc/passwd-
 
-  chown root:root /etc/shadow-
-  chmod 600 /etc/shadow-
+    chown root:root /etc/shadow-
+    chmod 600 /etc/shadow-
 
-  chown root:root /etc/group-
-  chmod 600 /etc/group-
+    chown root:root /etc/group-
+    chmod 600 /etc/group-
 
-  chown root:root /etc/gshadow-
-  chmod 600 /etc/gshadow-
+    chown root:root /etc/gshadow-
+    chmod 600 /etc/gshadow-
 
 
-  echo -e ""
-  echo -e "Setting Sticky bit on all world-writable directories"
-  sleep 2
-  spinner
+    echo -e ""
+    echo -e "Setting Sticky bit on all world-writable directories"
+    sleep 2
+    spinner
 
-  df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
+    df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
 
-  echo " OK"
-  say_done
+    echo " OK"
+    say_done
 
 }
 ##############################################################################################################
@@ -1199,6 +1200,34 @@ reboot_server(){
 
 ##################################################################################################################
 
+# Install Cert bot
+
+install_certbot(){
+    clear
+    f_banner
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo -e "\e[93m[+]\e[00m Let's Encrypt Certbot Install"
+    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+    echo ""
+    echo "Certbot creates a SSL sertificate for your server"
+    echo ""
+    echo -n " Do you want install Certbot on this Server? (y/n): " ; read arp_answer
+    if [ "$arp_answer" == "y" ]; then
+	echo -n " What is your domain?: " ; read yourdomain
+	echo "Installing Certbot"
+	spinner
+	apt install -y certbot python3-certbot-nginx
+	sudo certbot --nginx -d $yourdomain -d www.$yourdomain
+	echo "OK"
+	say_done
+    else
+	echo "OK"
+	say_done
+    fi
+}
+
+##############################################################################################################
+
 clear
 f_banner
 echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
@@ -1207,448 +1236,495 @@ echo -e "\e[34m-----------------------------------------------------------------
 echo ""
 echo "1. LAMP Deployment"
 echo "2. LEMP Deployment"
-echo "3. Reverse Proxy Deployment With Apache"
-echo "4. General Purpose (without WebServer or DBServer)"
-echo "5. Running With SecureWPDeployer or JSDeployer Script"
-echo "6. Customized Run (Only run desired Options)"
-echo "7. CIS Benchmark Hardening"
-echo "8. Exit"
+echo "3. LEMP Custom Deployment"
+echo "4. Reverse Proxy Deployment With Apache"
+echo "5. General Purpose (without WebServer or DBServer)"
+echo "6. Running With SecureWPDeployer or JSDeployer Script"
+echo "7. Customized Run (Only run desired Options)"
+echo "8. CIS Benchmark Hardening"
+echo "9. Exit"
 echo
 
 read choice
 
 case $choice in
 
-1)
-check_root
-install_dep
-config_host
-config_timezone
-update_system
-restrictive_umask
-unused_filesystems
-uncommon_netprotocols
-admin_user
-rsa_keygen
-rsa_keycopy
-secure_ssh
-set_iptables
-install_fail2ban
-install_secure_mysql
-install_apache
-install_secure_php
-install_modsecurity
-set_owasp_rules
-secure_optimize_apache
-install_modevasive
-install_qos_spamhaus
-config_fail2ban
-additional_packages
-tune_secure_kernel
-install_rootkit_hunter
-tune_nano_vim_bashrc
-daily_update_cronjob
-install_artillery
-additional_hardening
-install_unhide
-install_tiger
-install_psad
-disable_compilers
-secure_tmp
-apache_conf_restrictions
-unattended_upgrades
-enable_proc_acct
-install_auditd
-install_sysstat
-install_arpwatch
-set_grubpassword
-file_permissions
-reboot_server
-;;
+    1)
+	check_root
+	install_dep
+	config_host
+	config_timezone
+	update_system
+	restrictive_umask
+	unused_filesystems
+	uncommon_netprotocols
+	admin_user
+	rsa_keygen
+	rsa_keycopy
+	secure_ssh
+	set_iptables
+	install_fail2ban
+	install_secure_mysql
+	install_apache
+	install_secure_php
+	install_modsecurity
+	set_owasp_rules
+	secure_optimize_apache
+	install_modevasive
+	install_qos_spamhaus
+	config_fail2ban
+	additional_packages
+	tune_secure_kernel
+	install_rootkit_hunter
+	tune_nano_vim_bashrc
+	daily_update_cronjob
+	install_artillery
+	additional_hardening
+	install_unhide
+	install_tiger
+	install_psad
+	disable_compilers
+	secure_tmp
+	apache_conf_restrictions
+	unattended_upgrades
+	enable_proc_acct
+	install_auditd
+	install_sysstat
+	install_arpwatch
+	set_grubpassword
+	file_permissions
+	reboot_server
+	;;
 
 
-2)
-check_root
-install_dep
-config_host
-config_timezone
-update_system
-restrictive_umask
-unused_filesystems
-uncommon_netprotocols
-admin_user
-rsa_keygen
-rsa_keycopy
-secure_ssh
-set_iptables
-install_fail2ban
-install_secure_mysql
-install_nginx
-compile_modsec_nginx
-install_secure_php_nginx
-config_fail2ban
-additional_packages
-tune_secure_kernel
-install_rootkit_hunter
-tune_nano_vim_bashrc
-daily_update_cronjob
-install_artillery
-additional_hardening
-install_unhide
-install_tiger
-install_psad
-disable_compilers
-secure_tmp
-unattended_upgrades
-enable_proc_acct
-install_auditd
-install_sysstat
-install_arpwatch
-set_grubpassword
-file_permissions
-reboot_server
-;;
+    2)
+	check_root
+	install_dep
+	config_host
+	config_timezone
+	update_system
+	restrictive_umask
+	unused_filesystems
+	uncommon_netprotocols
+	admin_user
+	rsa_keygen
+	rsa_keycopy
+	secure_ssh
+	set_iptables
+	install_fail2ban
+	install_secure_mysql
+	install_nginx
+	compile_modsec_nginx
+	install_secure_php_nginx
+	config_fail2ban
+	additional_packages
+	tune_secure_kernel
+	install_rootkit_hunter
+	tune_nano_vim_bashrc
+	daily_update_cronjob
+	install_artillery
+	additional_hardening
+	install_unhide
+	install_tiger
+	install_psad
+	disable_compilers
+	secure_tmp
+	unattended_upgrades
+	enable_proc_acct
+	install_auditd
+	install_sysstat
+	install_arpwatch
+	set_grubpassword
+	file_permissions
+	reboot_server
+	;;
 
-3)
-check_root
-install_dep
-config_host
-config_timezone
-update_system
-restrictive_umask
-unused_filesystems
-uncommon_netprotocols
-admin_user
-rsa_keygen
-rsa_keycopy
-secure_ssh
-set_iptables
-install_fail2ban
-install_apache
-install_modsecurity
-set_owasp_rules
-secure_optimize_apache
-install_modevasive
-install_qos_spamhaus
-config_fail2ban
-additional_packages
-tune_secure_kernel
-install_rootkit_hunter
-tune_nano_vim_bashrc
-daily_update_cronjob
-install_artillery
-additional_hardening
-install_unhide
-install_tiger
-install_psad
-disable_compilers
-secure_tmp
-apache_conf_restrictions
-unattended_upgrades
-enable_proc_acct
-install_auditd
-install_sysstat
-install_arpwatch
-set_grubpassword
-file_permissions
-reboot_server
-;;
+    3)
+	check_root
+	install_dep
+	config_host
+	config_timezone
+	update_system
+	restrictive_umask
+	unused_filesystems
+	uncommon_netprotocols
+	admin_user
+	rsa_keygen
+	rsa_keycopy
+	secure_ssh
+	set_iptables
+	install_fail2ban
+	install_nginx
+	compile_modsec_nginx
+	config_fail2ban
+	install_certbot
+	additional_packages
+	tune_secure_kernel
+	install_rootkit_hunter
+	tune_nano_vim_bashrc
+	daily_update_cronjob
+	install_artillery
+	additional_hardening
+	install_unhide
+	install_tiger
+	install_psad
+	disable_compilers
+	secure_tmp
+	unattended_upgrades
+	enable_proc_acct
+	install_auditd
+	install_sysstat
+	install_arpwatch
+	set_grubpassword
+	file_permissions
+	reboot_server
+	;;
 
-4)
-check_root
-install_dep
-config_host
-config_timezone
-update_system
-restrictive_umask
-unused_filesystems
-uncommon_netprotocols
-admin_user
-rsa_keygen
-rsa_keycopy
-secure_ssh
-set_iptables
-install_fail2ban
-config_fail2ban
-additional_packages
-tune_secure_kernel
-install_rootkit_hunter
-tune_nano_vim_bashrc
-daily_update_cronjob
-install_artillery
-additional_hardening
-install_unhide
-install_tiger
-install_psad
-disable_compilers
-secure_tmp
-unattended_upgrades
-enable_proc_acct
-install_auditd
-install_arpwatch
-set_grubpassword
-file_permissions
-;;
+    4)
+	check_root
+	install_dep
+	config_host
+	config_timezone
+	update_system
+	restrictive_umask
+	unused_filesystems
+	uncommon_netprotocols
+	admin_user
+	rsa_keygen
+	rsa_keycopy
+	secure_ssh
+	set_iptables
+	install_fail2ban
+	install_apache
+	install_modsecurity
+	set_owasp_rules
+	secure_optimize_apache
+	install_modevasive
+	install_qos_spamhaus
+	config_fail2ban
+	additional_packages
+	tune_secure_kernel
+	install_rootkit_hunter
+	tune_nano_vim_bashrc
+	daily_update_cronjob
+	install_artillery
+	additional_hardening
+	install_unhide
+	install_tiger
+	install_psad
+	disable_compilers
+	secure_tmp
+	apache_conf_restrictions
+	unattended_upgrades
+	enable_proc_acct
+	install_auditd
+	install_sysstat
+	install_arpwatch
+	set_grubpassword
+	file_permissions
+	reboot_server
+	;;
 
-
-5)
-check_root
-install_dep
-config_host
-config_timezone
-update_system
-restrictive_umask
-unused_filesystems
-uncommon_netprotocols
-admin_user
-rsa_keygen
-rsa_keycopy
-secure_ssh
-set_iptables
-install_fail2ban
-install_secure_mysql
-install_apache
-install_secure_php
-install_modsecurity
-set_owasp_rules
-secure_optimize_apache
-install_modevasive
-install_qos_spamhaus
-config_fail2ban
-additional_packages
-tune_secure_kernel
-install_rootkit_hunter
-tune_nano_vim_bashrc
-daily_update_cronjob
-install_artillery
-additional_hardening
-install_unhide
-install_tiger
-install_psad
-disable_compilers
-secure_tmp
-apache_conf_restrictions
-unattended_upgrades
-enable_proc_acct
-install_auditd
-install_sysstat
-install_arpwatch
-set_grubpassword
-file_permissions
-;;
-
-6)
-
-menu=""
-until [ "$menu" = "34" ]; do
-
-clear
-f_banner
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m SELECT THE DESIRED OPTION"
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo ""
-echo "1. Configure Host Name, Create Legal Banners, Update Hosts Files"
-echo "2. Configure Timezone"
-echo "3. Update System"
-echo "4. Create Admin User"
-echo "5. Instructions to Generate and move Private/Public key Pair"
-echo "6. Secure SSH Configuration"
-echo "7. Set Restrictive IPTable Rules"
-echo "8. Install and Configure Fail2Ban"
-echo "9. Install, Optimize and Secure Apache"
-echo "10. Install Nginx with ModSecurity Module and Set OwaspRules"
-echo "11. Set Nginx Vhost with PHP"
-echo "12. Set Nginx Vhost"
-echo "13. Install and Secure PHP for Apache Server"
-echo "14. Install and Secure PHP for Nginx Server"
-echo "15. Install ModSecurity (Apache)and Set Owasp Rules"
-echo "16. Install ModEvasive"
-echo "17. Install ModQos and SpamHaus"
-echo "18. Tune and Secure Linux Kernel"
-echo "19. Install RootKit Hunter"
-echo "20. Tune Vim, Nano, Bashrc"
-echo "21. Install PortSentry"
-echo "22. Secure tty, root home, grub configs, cron"
-echo "23. Install Unhide"
-echo "24. Install Tiger"
-echo "25. Disable Compilers"
-echo "26. Enable Unnatended Upgrades"
-echo "27. Enable Process Accounting"
-echo "28. Install PHP Suhosin (Disabled for Now)"
-echo "29. Install and Secure MySQL"
-echo "30. Set More Restrictive UMASK Value (027)"
-echo "31. Secure /tmp Directory"
-echo "32. Install PSAD IDS"
-echo "33. Set GRUB Bootloader Password"
-echo "34. Exit"
-echo " "
-
-read menu
-case $menu in
-
-1)
-config_host
-;;
-
-2)
-config_timezone
-;;
-
-3)
-update_system
-;;
-
-4)
-admin_user
-;;
-
-5)
-rsa_keygen
-rsa_keycopy
-;;
-
-6)
-echo "key Pair must be created "
-echo "What user will have access via SSH? " ; read username
-rsa_keygen
-rsa_keycopy
-secure_ssh
-;;
-
-7)
-set_iptables
-;;
-
-8)
-echo "Type Email to receive Alerts: " ; read inbox
-install_fail2ban
-config_fail2ban
-;;
-
-9)
-install_apache
-secure_optimize_apache
-apache_conf_restrictions
-;;
-
-10)
-install_nginx_modsecurity
-set_nginx_modsec_OwaspRules
-;;
-
-11)
-set_nginx_vhost
-;;
+    5)
+	check_root
+	install_dep
+	config_host
+	config_timezone
+	update_system
+	restrictive_umask
+	unused_filesystems
+	uncommon_netprotocols
+	admin_user
+	rsa_keygen
+	rsa_keycopy
+	secure_ssh
+	set_iptables
+	install_fail2ban
+	config_fail2ban
+	additional_packages
+	tune_secure_kernel
+	install_rootkit_hunter
+	tune_nano_vim_bashrc
+	daily_update_cronjob
+	install_artillery
+	additional_hardening
+	install_unhide
+	install_tiger
+	install_psad
+	disable_compilers
+	secure_tmp
+	unattended_upgrades
+	enable_proc_acct
+	install_auditd
+	install_arpwatch
+	set_grubpassword
+	file_permissions
+	;;
 
 
-12)
-set_nginx_vhost_nophp
-;;
+    6)
+	check_root
+	install_dep
+	config_host
+	config_timezone
+	update_system
+	restrictive_umask
+	unused_filesystems
+	uncommon_netprotocols
+	admin_user
+	rsa_keygen
+	rsa_keycopy
+	secure_ssh
+	set_iptables
+	install_fail2ban
+	install_secure_mysql
+	install_apache
+	install_secure_php
+	install_modsecurity
+	set_owasp_rules
+	secure_optimize_apache
+	install_modevasive
+	install_qos_spamhaus
+	config_fail2ban
+	additional_packages
+	tune_secure_kernel
+	install_rootkit_hunter
+	tune_nano_vim_bashrc
+	daily_update_cronjob
+	install_artillery
+	additional_hardening
+	install_unhide
+	install_tiger
+	install_psad
+	disable_compilers
+	secure_tmp
+	apache_conf_restrictions
+	unattended_upgrades
+	enable_proc_acct
+	install_auditd
+	install_sysstat
+	install_arpwatch
+	set_grubpassword
+	file_permissions
+	;;
 
-13)
-install_secure_php
-;;
+    7)
 
-14)
-install_php_nginx
-;;
+	menu=""
+	until [ "$menu" = "34" ]; do
 
-15)
-install_modsecurity
-set_owasp_rules
-;;
+	    clear
+	    f_banner
+	    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+	    echo -e "\e[93m[+]\e[00m SELECT THE DESIRED OPTION"
+	    echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+	    echo ""
+	    echo "1. Configure Host Name, Create Legal Banners, Update Hosts Files"
+	    echo "2. Configure Timezone"
+	    echo "3. Update System"
+	    echo "4. Create Admin User"
+	    echo "5. Instructions to Generate and move Private/Public key Pair"
+	    echo "6. Secure SSH Configuration"
+	    echo "7. Set Restrictive IPTable Rules"
+	    echo "8. Install and Configure Fail2Ban"
+	    echo "9. Install, Optimize and Secure Apache"
+	    echo "10. Install Nginx with ModSecurity Module and Set OwaspRules"
+	    echo "11. Set Nginx Vhost with PHP"
+	    echo "12. Set Nginx Vhost"
+	    echo "13. Install and Secure PHP for Apache Server"
+	    echo "14. Install and Secure PHP for Nginx Server"
+	    echo "15. Install ModSecurity (Apache)and Set Owasp Rules"
+	    echo "16. Install ModEvasive"
+	    echo "17. Install ModQos and SpamHaus"
+	    echo "18. Tune and Secure Linux Kernel"
+	    echo "19. Install RootKit Hunter"
+	    echo "20. Tune Vim, Nano, Bashrc"
+	    echo "21. Install PortSentry"
+	    echo "22. Secure tty, root home, grub configs, cron"
+	    echo "23. Install Unhide"
+	    echo "24. Install Tiger"
+	    echo "25. Disable Compilers"
+	    echo "26. Enable Unnatended Upgrades"
+	    echo "27. Enable Process Accounting"
+	    echo "28. Install PHP Suhosin (Disabled for Now)"
+	    echo "29. Install and Secure MySQL"
+	    echo "30. Set More Restrictive UMASK Value (027)"
+	    echo "31. Secure /tmp Directory"
+	    echo "32. Install PSAD IDS"
+	    echo "33. Set GRUB Bootloader Password"
+	    echo "34. Install Certbot"
+	    echo "35. Exit"
+	    echo " "
 
-16)
-install_modevasive
-;;
+	    read menu
+	    case $menu in
 
-17)
-install_qos_spamhaus
-;;
+		1)
+		    config_host
+		    ;;
 
-18)
-tune_secure_kernel
-;;
+		2)
+		    config_timezone
+		    ;;
 
-19)
-install_rootkit_hunter
-;;
+		3)
+		    update_system
+		    ;;
 
-20)
-tune_nano_vim_bashrc
-;;
+		4)
+		    admin_user
+		    ;;
 
-21)
-install_portsentry
-;;
+		5)
+		    rsa_keygen
+		    rsa_keycopy
+		    ;;
 
-22)
-additional_hardening
-;;
+		6)
+		    echo "key Pair must be created "
+		    echo "What user will have access via SSH? " ; read username
+		    rsa_keygen
+		    rsa_keycopy
+		    secure_ssh
+		    ;;
 
-23)
-install_unhide
-;;
+		7)
+		    set_iptables
+		    ;;
 
-24)
-install_tiger
-;;
+		8)
+		    echo "Type Email to receive Alerts: " ; read inbox
+		    install_fail2ban
+		    config_fail2ban
+		    ;;
 
-25)
-disable_compilers;
-;;
+		9)
+		    install_apache
+		    secure_optimize_apache
+		    apache_conf_restrictions
+		    ;;
 
-26)
-unattended_upgrades
-;;
+		10)
+		    install_nginx_modsecurity
+		    set_nginx_modsec_OwaspRules
+		    ;;
 
-27)
-enable_proc_acct
-;;
-
-#28)
-#install_phpsuhosin
-#;;
-
-29)
-install_secure_mysql
-;;
-
-30)
-restrictive_umask
-;;
-
-31)
-secure_tmp
-;;
-
-32)
-install_psad
-;;
-
-33)
-set_grubpassword
-;;
-
-34)
-break ;;
-
-*) ;;
-
-esac
-done
-;;
-
-7)
-chmod +x jshielder-CIS.sh
-./jshielder-CIS.sh
-;;
+		11)
+		    set_nginx_vhost
+		    ;;
 
 
-8)
-exit 0
-;;
+		12)
+		    set_nginx_vhost_nophp
+		    ;;
+
+		13)
+		    install_secure_php
+		    ;;
+
+		14)
+		    install_php_nginx
+		    ;;
+
+		15)
+		    install_modsecurity
+		    set_owasp_rules
+		    ;;
+
+		16)
+		    install_modevasive
+		    ;;
+
+		17)
+		    install_qos_spamhaus
+		    ;;
+
+		18)
+		    tune_secure_kernel
+		    ;;
+
+		19)
+		    install_rootkit_hunter
+		    ;;
+
+		20)
+		    tune_nano_vim_bashrc
+		    ;;
+
+		21)
+		    install_portsentry
+		    ;;
+
+		22)
+		    additional_hardening
+		    ;;
+
+		23)
+		    install_unhide
+		    ;;
+
+		24)
+		    install_tiger
+		    ;;
+
+		25)
+		    disable_compilers;
+		    ;;
+
+		26)
+		    unattended_upgrades
+		    ;;
+
+		27)
+		    enable_proc_acct
+		    ;;
+
+		#28)
+		#install_phpsuhosin
+		#;;
+
+		29)
+		    install_secure_mysql
+		    ;;
+
+		30)
+		    restrictive_umask
+		    ;;
+
+		31)
+		    secure_tmp
+		    ;;
+
+		32)
+		    install_psad
+		    ;;
+
+		33)
+		    set_grubpassword
+		    ;;
+
+		34)
+		    install_certbot
+		    ;;
+
+		35)
+		    break ;;
+
+		*) ;;
+
+	    esac
+	done
+	;;
+
+    8)
+	chmod +x jshielder-CIS.sh
+	./jshielder-CIS.sh
+	;;
+
+
+    9)
+	exit 0
+	;;
 
 esac
 ##############################################################################################################

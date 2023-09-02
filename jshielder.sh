@@ -88,7 +88,7 @@ chmod +x jshielder.sh
 ./jshielder.sh
 ;;
 
-8)
+7)
 break
 ;;
 
