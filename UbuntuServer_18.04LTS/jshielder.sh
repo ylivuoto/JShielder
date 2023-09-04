@@ -1211,15 +1211,33 @@ install_certbot(){
     echo ""
     echo "Certbot creates a SSL sertificate for your server"
     echo ""
-    echo -n " Do you want install Certbot on this Server? (y/n): " ; read arp_answer
-    if [ "$arp_answer" == "y" ]; then
+    echo -n " Do you want install Certbot on this Server? (y/n): " ; read cert_answer
+    if [ "$cert_answer" == "y" ]; then
 	echo -n " What is your domain?: " ; read yourdomain
 	echo "Installing Certbot"
 	spinner
 	apt install -y certbot python3-certbot-nginx
-	sudo certbot --nginx -d $yourdomain -d www.$yourdomain
-	echo "OK"
-	say_done
+	certbot --nginx -d $yourdomain -d www.$yourdomain
+	rm /etc/nginx/conf.d/default.conf
+	# TODO: create template
+	cp templates/nginx_site /etc/nginx/sites-available/$yourdomain
+	sed -i "s/yourdomainname/$yourdomain/g" /etc/nginx/sites-available/$yourdomain
+	sudo ln -s /etc/nginx/sites-available/$yourdomain /etc/nginx/sites-enabled/
+	echo ""
+	echo -n " Do you want to apply certificate for subdomain? (y/n): " ; read sub_answer
+	if [ "$sub_answer" == "y" ]; then
+	    echo -n " What is your subdomain? (Please, prefix only): " ; read subdomain
+	    cp templates/nginx_directus /etc/nginx/sites-available/$subdomain.$yourdomain
+	    sed -i "s/yourdomainname/$subdomain.$yourdomain/g" /etc/nginx/sites-available/$subdomain.$yourdomain	
+	    sudo ln -s /etc/nginx/sites-available/$subdomain.$yourdomain /etc/nginx/sites-enabled/
+	    service nginx restart
+	    echo "OK"
+	    say_done
+	else
+	    service nginx restart
+	    echo "OK"
+	    say_done
+	fi
     else
 	echo "OK"
 	say_done
