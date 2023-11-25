@@ -1371,21 +1371,23 @@ case $choice in
 	rsa_keycopy
 	secure_ssh
 	set_iptables
-	install_fail2ban
+	# install_fail2ban
+	# install_secure_mysql
 	install_nginx
-	compile_modsec_nginx
-	config_fail2ban
+	# compile_modsec_nginx
+	# install_secure_php_nginx
+	# config_fail2ban
 	install_certbot
 	additional_packages
 	tune_secure_kernel
-	install_rootkit_hunter
+	# install_rootkit_hunter
 	tune_nano_vim_bashrc
 	daily_update_cronjob
-	install_artillery
+	# install_artillery
 	additional_hardening
-	install_unhide
-	install_tiger
-	install_psad
+	# install_unhide
+	# install_tiger
+	# install_psad
 	disable_compilers
 	secure_tmp
 	unattended_upgrades
